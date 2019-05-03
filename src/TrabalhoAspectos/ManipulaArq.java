@@ -33,6 +33,7 @@ public class ManipulaArq {
         arqGravar.write(expressao+"\r");
         arqGravar.close();
     } catch(IOException e) {
+        System.out.println("O caminho não existe");
         e.printStackTrace();
     }
      
