@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
+        ArrayList <String> expressoes = new ArrayList();
 	/**
 	 * Menu que contem as definicoes de cada comando que o usuario pode utilizar.
 	 * :f - Realiza a divisao em tags da string do arquivo informado atraves do metodo: divisaoEmTagsArq.
@@ -75,14 +76,18 @@ public class Menu {
 	 */
 	
 	private ArrayList<String> definicoesDeTag(String caminhoTags) {
-		ArrayList <String> expressoes;
+		//ArrayList <String> expressoes;
                 ManipulaArq defTags = new ManipulaArq();
-		expressoes = defTags.getExpressao(caminhoTags);
-                System.out.println(expressoes.toString());
+		this.expressoes = defTags.getExpressao(caminhoTags);
+                for(int i = 0 ; i < this.expressoes.size() ; i++){
+                    Regex er = new Regex(this.expressoes.get(i));
+                    er.validaExpressaoP();
+                }
+                /*System.out.println(expressoes.toString());
                 for(int i = 0 ; i < expressoes.size() ; i++){
                     System.out.println(expressoes.get(i));
-                }
-                return expressoes;
+                }*/
+                return this.expressoes;
 	}
         /**
 	 * Metodo que define a saida do arquivo (:o)
@@ -117,6 +122,11 @@ public class Menu {
 	 * @param expressao - Expressao que sera divida e avaliada.
 	 */
 	private void divisaoEmTags(String expressao) {
-		
+            Tag defineTag = new Tag();
+            for (int i = 0 ; i < this.expressoes.size() ; i++) {
+                defineTag.setExpressoes(this.expressoes.get(i));
+            }
+            defineTag.nomeTag(expressao);
+                
 	}
 }

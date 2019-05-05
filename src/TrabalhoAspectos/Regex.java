@@ -36,10 +36,23 @@ public class Regex {
             String comparacao;
             String fechoKleene;
             String concatena;
-           
+            String nomeTag = "";
+            boolean validador = false;
             int i = 0;
-            do{
-                switch (this.valores[i]) {
+            while(i < this.valores.length){
+                if(this.valores[i] == ':'){
+                    validador = true;
+                    nomeTag = nomeTag+ String.valueOf(this.valores[i]);
+                    break;
+                }
+                nomeTag = nomeTag+ String.valueOf(this.valores[i]);
+                i++;
+            }
+            i++;
+            if(validador){
+                do{
+                
+                    switch (this.valores[i]) {
                     case '+':
                         if(pilha.size()>=2){
                             pilhaAux.push(pilha.pop());
@@ -78,12 +91,19 @@ public class Regex {
                         pilha.push(String.valueOf(this.valores[i]));
                         i++;
                         break;
-                }
-            }while(i < this.valores.length);
+                    }
+                }while(i < this.valores.length);
+            }
             
-            System.out.println("Expressão final: "+pilha.toString());
-            int tamPilha = pilha.size();
-            String strPilhaTopo = pilha.pop();
+            
+            System.out.println(nomeTag+" "+pilha.toString());
+            int tamPilha = -1;
+            String strPilhaTopo = "" ;
+            if(!pilha.empty()){
+                tamPilha = pilha.size();
+                strPilhaTopo = pilha.pop();
+            }
+            
             if(tamPilha == 1 && !"*".equals(strPilhaTopo) && !"+".equals(strPilhaTopo) && !".".equals(strPilhaTopo)){
                 System.out.println("Válido");
                 return true;
@@ -92,7 +112,7 @@ public class Regex {
                 return false;
             }
             
-            
+            //C:\\Users\\pedro\\Desktop\\Aspectos\\TrabalhoAspectos\\src\\TrabalhoAspectos\\teste.txt
         }
 	/**
 	 * Metodo para verificar se a expressao regular eh valida ou nao.
