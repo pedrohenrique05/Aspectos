@@ -100,7 +100,17 @@ public class Menu {
 	 * @param caminhoString - Caminho do arquivo que contem a expressao que sera dividida e avaliada.
 	 */
 	private static void divisaoEmTagsArq(String caminhoArq) {
-		
+                ArrayList <String> expressoes;
+                ManipulaArq defTags = new ManipulaArq();
+                expressoes = defTags.getExpressao(caminhoArq);
+                for(int i = 0 ; i < expressoes.size() ; i++){
+                    Regex er = new Regex(expressoes.get(i));
+                    er.validaExpressaoP();
+                }
+                
+                //ManipulaArq arq = new ManipulaArq();
+		//String expressao = arq.getExpressao(caminhoString);
+		//Regex er = new Regex(expressao);
 	}
 	/**
 	 * Metodo que realiza a divisao em tags da expressao que foi passada pelo usuario como parametro. (:p)
