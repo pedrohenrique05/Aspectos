@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package trabalhoaspectos;
+package TrabalhoAspectos;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
  *
  * @author Pedro
  */
-public class ManipulaArq {
+public class Arquivo {
     
     public void setExpressao(String expressao, String caminhoArq){
      try{
@@ -32,8 +32,9 @@ public class ManipulaArq {
         
         arqGravar.write(expressao+"\r");
         arqGravar.close();
+        System.out.println("[INFO] Tags salvas");
     } catch(IOException e) {
-        System.out.println("O caminho não existe");
+        System.out.println("[ERRO] Caminho especificado inválido - Tag não foi salva");
         e.printStackTrace();
     }
      
@@ -53,8 +54,9 @@ public class ManipulaArq {
             
             }
             entrada.close();
+            System.out.println("[INFO] Denificoes de tags carregadas.");
         }catch(IOException e){
-            System.out.println("Erro ao abrir arquivo de entrada");
+            System.out.println("[ERRO] Caminho especificado inválido - Tag não foi carregada");
         }
         
         return expressoes;  

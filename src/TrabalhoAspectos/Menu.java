@@ -1,10 +1,11 @@
-package trabalhoaspectos;
+package TrabalhoAspectos;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
-        ArrayList <String> expressoes = new ArrayList();
+        ArrayList <String> expressoesCarregadas = new ArrayList();
+        ArrayList <String> expressoesDigitadas = new ArrayList();
 	/**
 	 * Menu que contem as definicoes de cada comando que o usuario pode utilizar.
 	 * :f - Realiza a divisao em tags da string do arquivo informado atraves do metodo: divisaoEmTagsArq.
@@ -16,87 +17,79 @@ public class Menu {
 	 */
 	
 	public void menu(){
-		Scanner leitura = new Scanner(System.in);
-                Scanner leituraER = new Scanner(System.in);
-                System.out.println("Escolha o comando a ser usado: ");
-		String comando = leitura.nextLine();
-                String expressaoR = "";
+		System.out.println("[INFO] Escolha o comando a ser usado ");
+		String comando = lerString();
                 while(!":q".equals(comando)){
+                    if(!":f".equals(comando) && !":l".equals(comando) && !":o".equals(comando) && !":p".equals(comando) && !":s".equals(comando))
+				System.out.println("[WARNING] Comando invalido, tag definida");
                     switch(comando) {
 			case ":f":
-				System.out.println("Informe o caminho do arquivo: ");
-				String caminhoArq = leitura.nextLine();
-				divisaoEmTagsArq(caminhoArq);
-				break;
+                                System.out.println("[ERRO] Operacao ainda nao inserida (PARTE 2 DO TRABALHO)");
+				//divisaoEmTagsArq();
+                                break;
 			case ":l":
-				System.out.println("Informe o caminho do arquivo com as definicoes de tags: ");
-				String caminhoTags = leitura.nextLine();
-				definicoesDeTag(caminhoTags);
+				definicoesDeTag();
 				break;
 			case ":o":
-				System.out.println("Caminho do arquivo de saida para divisao de tags: ");
-				String caminhoSaida = leitura.nextLine();
-				saidaArquivo(caminhoSaida);
+                                System.out.println("[ERRO] Operacao ainda nao inserida (PARTE 2 DO TRABALHO)");
+                            	//saidaArquivo();
 				break;
 			case ":p":
-				System.out.println("Expressao: ");
-				String expressao = leitura.nextLine();
-				divisaoEmTags(expressao);
+                                System.out.println("[ERRO] Operacao ainda nao inserida (PARTE 2 DO TRABALHO)");
+				//divisaoEmTags();
 				break;
 			
 			case ":s":
-				System.out.println("Informe o caminho do arquivo em que as tags serao salvas: ");
-				String caminhoTags2 = leitura.nextLine();
-				salvarTags(expressaoR,caminhoTags2);
+				salvarTags();
 				break;
 			default:
-                                expressaoR = comando;
+                                this.expressoesDigitadas.add(comando);
 				break;
                     }
-                    comando = leitura.nextLine();
+                    System.out.println("[INFO] Escolha o comando a ser usado ");
+                    comando = lerString();
                 }
-		
-		leitura.close();
-	}
+                System.out.println("[INFO] Encerrando execucao.");
+        }
 	/**
 	 * Metodo que salva a tag que o usuario definiu em um arquivo .txt. (:s)
 	 * @param tag - Tag que foi definida e sera salva.
 	 * @param caminhoTags - Caminho do arquivo que sera salva a tag.
 	 */
-	private void salvarTags(String expressao, String caminhoTags) {
-		ManipulaArq salvaTag = new ManipulaArq();
-                if(expressao != ""){
-                    salvaTag.setExpressao(expressao, caminhoTags);
+	private void salvarTags() {
+                String caminhoTags = lerString();
+		Arquivo salvaTag = new Arquivo();
+                if(!this.expressoesDigitadas.isEmpty()){
+                    for(int i = 0 ; i < this.expressoesDigitadas.size() ; i++){
+                        if(!"".equals(this.expressoesDigitadas.get(i))){
+                            salvaTag.setExpressao(this.expressoesDigitadas.get(i), caminhoTags);
+                        }
+                    }
                 }
+                this.expressoesDigitadas.clear();
 	}
         /**
 	 * Metodo que carrega definicoes de tags de um arquivo de escolha do usuario. (:l)
-	 * @param caminhoTags - Caminho do arquivo com as definicoes de tags.
+         * O metodo já vai informar automaticamente a validade de cada tag lida
 	 * @return - Retorna as definicoes de tags.
 	 */
 	
-	private ArrayList<String> definicoesDeTag(String caminhoTags) {
-		//ArrayList <String> expressoes;
-                ManipulaArq defTags = new ManipulaArq();
-		this.expressoes = defTags.getExpressao(caminhoTags);
-                for(int i = 0 ; i < this.expressoes.size() ; i++){
-                    Regex er = new Regex(this.expressoes.get(i));
+	private ArrayList<String> definicoesDeTag() {
+		String caminho = lerString();
+                Arquivo defTags = new Arquivo();
+		this.expressoesCarregadas = defTags.getExpressao(caminho);
+                for(int i = 0 ; i < this.expressoesCarregadas.size() ; i++){
+                    Regex er = new Regex(this.expressoesCarregadas.get(i));
                     er.validaExpressaoP();
                 }
-                /*System.out.println(expressoes.toString());
-                for(int i = 0 ; i < expressoes.size() ; i++){
-                    System.out.println(expressoes.get(i));
-                }*/
-                return this.expressoes;
+                return this.expressoesCarregadas;
 	}
         /**
 	 * Metodo que define a saida do arquivo (:o)
 	 * @return - Retorna o caminho que o usuario informou.
 	 */
-	private String saidaArquivo(String caminhoArq) {
-		Scanner leitura = new Scanner(System.in);
-		String caminho = leitura.next();
-		leitura.close();
+	private String saidaArquivo() {
+		String caminho = lerString();
 		return caminho;
 	}
 	/**
@@ -104,29 +97,44 @@ public class Menu {
 	 * passado por parametro. (:f)
 	 * @param caminhoString - Caminho do arquivo que contem a expressao que sera dividida e avaliada.
 	 */
-	private static void divisaoEmTagsArq(String caminhoArq) {
+	private static void divisaoEmTagsArq() {
+                Scanner leitura = new Scanner(System.in);
+                System.out.println("Informe o caminho do arquivo: ");
+                String caminhoArq = leitura.nextLine();
                 ArrayList <String> expressoes;
-                ManipulaArq defTags = new ManipulaArq();
+                Arquivo defTags = new Arquivo();
                 expressoes = defTags.getExpressao(caminhoArq);
                 for(int i = 0 ; i < expressoes.size() ; i++){
                     Regex er = new Regex(expressoes.get(i));
                     er.validaExpressaoP();
                 }
                 
-                //ManipulaArq arq = new ManipulaArq();
+                //ManipulaArq arq = new Arquivo();
 		//String expressao = arq.getExpressao(caminhoString);
 		//Regex er = new Regex(expressao);
 	}
 	/**
+         * INCOMPLETO
 	 * Metodo que realiza a divisao em tags da expressao que foi passada pelo usuario como parametro. (:p)
 	 * @param expressao - Expressao que sera divida e avaliada.
 	 */
-	private void divisaoEmTags(String expressao) {
+	private void divisaoEmTags() {
+            String expressao = lerString();
             Tag defineTag = new Tag();
-            for (int i = 0 ; i < this.expressoes.size() ; i++) {
-                defineTag.setExpressoes(this.expressoes.get(i));
+            for (int i = 0 ; i < this.expressoesCarregadas.size() ; i++) {
+                defineTag.setExpressoes(this.expressoesCarregadas.get(i));
             }
             defineTag.nomeTag(expressao);
                 
 	}
+        /**
+         * Metodo com objetivo apenas de ler string,
+         * para qualquer metodo que precisar.
+         * @return String com caminho informado pelo usuário.
+         */
+        private String lerString(){
+            Scanner leitura = new Scanner(System.in);
+            String caminho = leitura.next();
+            return caminho;
+        }
 }

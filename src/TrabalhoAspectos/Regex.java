@@ -6,7 +6,7 @@
  * Leonardo Silva da Cunha - 201676019
  * Pedro Henrique Delgado Moura - 201776032
  */
-package trabalhoaspectos;
+package TrabalhoAspectos;
 
 import java.util.Stack;
 
