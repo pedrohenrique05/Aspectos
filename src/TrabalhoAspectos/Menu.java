@@ -61,6 +61,7 @@ public class Menu {
 		Arquivo salvaTag = new Arquivo();
                 if(!this.expressoesDigitadas.isEmpty()){
                     for(int i = 0 ; i < this.expressoesDigitadas.size() ; i++){
+                        System.out.println(this.expressoesDigitadas.get(i));
                         if(!"".equals(this.expressoesDigitadas.get(i))){
                             salvaTag.setExpressao(this.expressoesDigitadas.get(i), caminhoTags);
                         }
@@ -72,6 +73,7 @@ public class Menu {
 	 * Metodo que carrega definicoes de tags de um arquivo de escolha do usuario. (:l)
          * O metodo já vai informar automaticamente a validade de cada tag lida
 	 * @return - Retorna as definicoes de tags.
+         * C:\\Users\\pedro\\Desktop\\Aspectos\\TrabalhoAspectos\\src\\TrabalhoAspectos\\teste.txt
 	 */
 	
 	private ArrayList<String> definicoesDeTag() {
@@ -79,8 +81,9 @@ public class Menu {
                 Arquivo defTags = new Arquivo();
 		this.expressoesCarregadas = defTags.getExpressao(caminho);
                 for(int i = 0 ; i < this.expressoesCarregadas.size() ; i++){
+                    System.out.println(this.expressoesCarregadas.get(i));
                     Regex er = new Regex(this.expressoesCarregadas.get(i));
-                    er.validaExpressaoP();
+                    er.validaExpressao();
                 }
                 return this.expressoesCarregadas;
 	}
@@ -106,7 +109,7 @@ public class Menu {
                 expressoes = defTags.getExpressao(caminhoArq);
                 for(int i = 0 ; i < expressoes.size() ; i++){
                     Regex er = new Regex(expressoes.get(i));
-                    er.validaExpressaoP();
+                    er.validaExpressao();
                 }
                 
                 //ManipulaArq arq = new Arquivo();
@@ -134,7 +137,7 @@ public class Menu {
          */
         private String lerString(){
             Scanner leitura = new Scanner(System.in);
-            String caminho = leitura.next();
+            String caminho = leitura.nextLine();
             return caminho;
         }
 }
